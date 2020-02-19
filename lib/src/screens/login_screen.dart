@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../bloc/bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -19,22 +20,35 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget emailField() {
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        labelText: 'Email address',
-        hintText: 'you@example.com',
-//        errorText: 'invalid email',
-      ),
+    return StreamBuilder(
+      stream: bloc.email,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        return TextField(
+          onChanged: bloc.changeEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Email address',
+            hintText: 'you@example.com',
+            errorText: snapshot.error,
+          ),
+        );
+      },
     );
   }
 
   Widget passwordField() {
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Password',
-      ),
+    return StreamBuilder(
+      stream: bloc.password,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        return TextField(
+          onChanged: bloc.changePassword,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            errorText: snapshot.error,
+          ),
+        );
+      },
     );
   }
 
