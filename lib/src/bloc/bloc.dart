@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'validators.dart';
 
-class Bloc with Validators {
-  final _email = StreamController<String>();
-  final _password = StreamController<String>();
+class Bloc extends Object with Validators {
+  final _email = StreamController<String>.broadcast();
+  final _password = StreamController<String>.broadcast();
 
   Stream<String> get email => _email.stream.transform(validateEmail);
   Stream<String> get password => _password.stream.transform(validatePassword);
